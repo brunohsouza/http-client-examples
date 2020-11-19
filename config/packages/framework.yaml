@@ -1,5 +1,40 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
+    http_client:
+        scoped_clients:
+            # only requests matching scope will use these options
+            openweather:
+                scope: 'http://api.openweathermap.org'
+                headers:
+                    Accept: 'application/json'
+                base_uri: 'http://api.openweathermap.org'
+                query:
+                    key: 'appid'
+                    value: "%env(OPENWEATHERMAP_ID)%"
+
+            # using base_uri, relative URLs (e.g. request("GET", "/repos/symfony/symfony-docs"))
+            # will default to these options
+            apifirst:
+                base_uri: 'https://api.first.org'
+                headers:
+                    Accept: 'application/json'
+                query:
+                    key: 'access'
+                    value: 'full'
+        default_options:
+            retry_failed:
+                # retry_strategy: app.custom_strategy
+                http_codes:
+                    0: [ 'GET', 'HEAD' ] # retry network errors if request method is GET or HEAD
+                    429: true            # retry all responses with 429 status code
+                    500: [ 'GET', 'HEAD' ]
+                max_retries: 2
+                delay: 1000
+                multiplier: 3
+                max_delay: 5000
+                jitter: 0.3
+
+
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
     #http_method_override: true
