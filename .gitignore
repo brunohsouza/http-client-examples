@@ -9,4 +9,8 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+<<<<<<< HEAD
 /.idea/
+=======
+.idea
+>>>>>>> 32fce9d (Creating examples of http client usage)
