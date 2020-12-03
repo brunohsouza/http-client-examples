@@ -2,23 +2,21 @@
 
 namespace App\Command;
 
-use App\Service\RetryFailureExampleService;
+use App\Service\RetryFailedExampleService;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class HttpClientRetryFailureCommand extends Command
+class HttpClientRetryFailedCommand extends Command
 {
-    protected static $defaultName = 'http-client:retry-failure';
+    protected static $defaultName = 'http-client:retry-failed';
 
-    private RetryFailureExampleService $retryFailureExampleService;
+    private RetryFailedExampleService $retryFailureExampleService;
 
-    public function __construct(RetryFailureExampleService $retryFailureExampleService)
+    public function __construct(RetryFailedExampleService $retryFailedExampleService)
     {
-        $this->retryFailureExampleService = $retryFailureExampleService;
+        $this->retryFailureExampleService = $retryFailedExampleService;
         parent::__construct(self::$defaultName);
     }
 
@@ -35,7 +33,7 @@ class HttpClientRetryFailureCommand extends Command
 
         $response = $this->retryFailureExampleService->executeRequest();
 
-        $io->success((string) $response);
+        $io->info(json_encode($response));
 
         return Command::SUCCESS;
     }
